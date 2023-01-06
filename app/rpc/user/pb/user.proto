@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+
+//model
+message UserInfo {
+  int64  id = 1;
+  int64  level = 2;
+  int64  sex = 3;
+  int64  age = 4;
+  int64  is_admin = 5;
+  string nickname = 6;
+  string mobile = 7;
+  string email = 8;
+  string avatar = 9;
+  string info = 10;
+}
+
+message RegisterReq {
+  string nickname = 1;
+  string password = 2;
+}
+
+message RegisterResp {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+  string  googleAuth = 4;
+}
+
+message LoginReq {
+  string  nickname = 1;
+  string  password = 2;
+  string  gcode = 3;
+}
+
+message LoginResp {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+}
+
+message GetUserInfoReq {
+  int64  id = 1;
+}
+
+message GetUserInfoResp {
+  UserInfo user = 1;
+}
+
+message GenerateTokenReq {
+  int64 userId = 1;
+}
+
+message GenerateTokenResp {
+  string accessToken = 1;
+  int64  accessExpire = 2;
+  int64  refreshAfter = 3;
+}
+
+//service
+service user {
+  rpc login(LoginReq) returns(LoginResp);
+  rpc register(RegisterReq) returns(RegisterResp);
+  rpc getUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
+  rpc generateToken(GenerateTokenReq) returns(GenerateTokenResp);
+}
